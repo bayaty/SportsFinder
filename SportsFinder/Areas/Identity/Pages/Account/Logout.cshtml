@@ -1,0 +1,23 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Log out";
+}
+
+<div class="box">
+        <p>You have successfully logged out of the application.</p>
+    <p> </p>
+    <p>Your browser will be redirected in 3 seconds.</p>
+</div>
+
+@section Scripts
+{
+    <script>
+    window.setTimeout(function () {
+
+        // Move to a new location or you can do something else
+        window.location.href = "@Url.Action("Index","Home",new { Area = "" })";
+
+    }, 3000);
+    </script>
+}

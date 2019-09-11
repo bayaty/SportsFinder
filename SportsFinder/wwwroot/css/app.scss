@@ -1,0 +1,84 @@
+﻿@import 'variables';
+@import "../lib/bulma-scss/bulma";
+@import "menu";
+@import "header";
+@import "auth";
+
+
+.app {
+    position: relative;
+    width: 100%;
+    padding-left: 0;
+    min-height: 100vh;
+    margin: 0 auto;
+    left: 0;
+    /*background-color: $color-bg;*/
+    box-shadow: 0 0 3px #ccc;
+    transition: left 0.3s ease, padding-left 0.3s ease;
+    overflow: hidden;
+
+    .dashboard-page {
+        box-shadow: inset 5px 0px 10px 0px #d6d6d6;
+    }
+
+    .content {
+        $padding-x: $content-padding-x-md;
+        $padding-y: $content-padding-y-md;
+
+        padding: $header-height + $padding-y $padding-x $footer-height + $padding-y $padding-x;
+        min-height: 100vh;
+    }
+
+    @include desktop {
+        padding-left: $sidebar-width;
+        // background-color: #ccc;
+        // left: -$sidebar-width;
+        // width: calc(100% + #{$sidebar-width});
+    }
+
+    &.sidebar-open {
+        // Disable content scrolling when sidebar is open
+        @include tablet {
+            left: 0;
+            // position: absolute;
+            // height: 100%;
+            // overflow: hidden;
+        }
+    }
+
+    &.blank {
+        background-color: #667380;
+    }
+}
+
+#user-nav {
+    padding-right: 5px;
+}
+
+
+.has-text-danger.validation-summary-errors ul{
+    list-style: none;
+}
+
+
+/* Form Validation */
+.field-validation-error {
+    @extend .is-danger;
+    @extend .help;
+}
+
+.input-validation-error {
+    border-color: $danger;
+    outline-color: $danger;
+}
+
+.input-validation-valid {
+    border-color: $success;
+    outline-color: $success;
+}
+
+.validation-summary-errors {
+    color: $danger;
+    font-style: italic;
+    @extend .help;
+}

@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="">
+    <meta name="theme-color" content="#fafafa">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="turbolinks-cache-control" content="no-cache">
+
+    <link rel="apple-touch-icon" href="~/icon.png">
+    <link rel="manifest" href="~/site.webmanifest">
+
+
+    @RenderSection("Head", required: false)
+
+    <title>@ViewData["Title"] - SportsFinder</title>
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" id="main-css-link" href="~/css/app.min.css" asp-append-version="true" class="main-css-link-class" data-turbolinks-permanent />
+
+    <script type="text/javascript">
+        window.baseUrl = "@Url.Content("~/")";
+    </script>
+
+    <!-- Scripts are in the head to not be redownloaded because of Turbo Links -->
+    <environment include="Development">
+        <script src="~/js/dist/vendor.min.dev.js" asp-append-version="true"></script>
+        <script src="~/js/app.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/dist/vendor.min.js" asp-append-version="true"></script>
+        <script src="~/js/dist/app.min.js" asp-append-version="true"></script>
+    </environment>
+
+</head>
+<body>
+    <div id="app" class="app header-fixed sidebar-fixed">
+        <header class="header">
+            <div class="header-block header-block-collapse is-hidden-desktop">
+                <button class="collapse-btn" id="sidebar-collapse-btn" onclick="openSidebar()">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            <div class="header-block header-block-nav is-hidden-desktop">
+                <div class="brand">
+                    <a class="has-text-dark is-size-4" asp-area="" asp-controller="Home" asp-action="Index">
+                        <partial name="_Logo" />
+                    </a>
+                </div>
+            </div>
+            <div class="header-block header-block-nav">
+                <partial name="_LoginPartial" />
+            </div>
+        </header>
+        <aside class="sidebar has-background-dark">
+            <div class="sidebar-header">
+                <div class="brand ">
+
+                    <a class="has-text-light is-size-4" asp-area="" asp-controller="Home" asp-action="Index">
+                        <partial name="_Logo" />
+                    </a>
+                </div>
+            </div>
+            <nav class="menu">
+                <ul class="menu-list" id="sidebar-menu">
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Home" asp-action="Index" is-active-route><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Events" asp-action="Index" is-active-route><i class="fas fa-list-ul"></i> Events</a>
+                    </li>
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Home" asp-action="Index" is-active-route><i class="fas fa-bell"></i> Notifications</a>
+                    </li>
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Home" asp-action="Index" is-active-route><i class="fas fa-user-cog"></i> Settings</a>
+                    </li>
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Home" asp-action="Privacy" is-active-route><i class="fas fa-user-shield"></i> Privacy</a>
+                    </li>
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="Get" is-active-route><i class="fas fa-basketball-ball"></i> Get Example</a>
+                    </li>
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="Post" is-active-route><i class="fas fa-upload"></i> Post Example</a>
+                    </li>
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="Vue" is-active-route><i class="fab fa-vuejs"></i> Vue Example</a>
+                    </li>
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VueGet" is-active-route><i class="fab fa-vuejs"></i><i class="fas fa-download"></i> Vue Get Example</a>
+                    </li>
+                    <li>
+                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fab fa-vuejs"></i><i class="fas fa-upload"></i> Vue Post Example</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="sidebar-overlay" id="sidebar-overlay" data-turbolinks-permanent></div>
+        <article class="content dashboard-page">
+            <partial name="_CookieConsentPartial" />
+            <section role="main" class="container is-fluid">
+                @RenderBody()
+            </section>
+        </article>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2019 - SportsFinder - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

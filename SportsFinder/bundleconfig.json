@@ -1,0 +1,57 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/js/dist/app.min.js",
+    "inputFiles": [
+      "wwwroot/js/app.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/dist/vendor.min.dev.js",
+    "inputFiles": [
+      "wwwroot/lib/vue/dist/vue.js",
+      "wwwroot/lib/turbolinks/turbolinks.js",
+      "wwwroot/lib/es6-promise/dist/es6-promise.min.js",
+      "wwwroot/lib/es6-promise/dist/es6-promise.auto.min.js",
+      "wwwroot/lib/object-path/index.js",
+      "wwwroot/lib/axios/dist/axios.min.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/dist/vendor.min.js",
+    "inputFiles": [
+      "wwwroot/lib/vue/dist/vue.min.js",
+      "wwwroot/lib/turbolinks/turbolinks.js",
+      "wwwroot/lib/es6-promise/dist/es6-promise.min.js",
+      "wwwroot/lib/es6-promise/dist/es6-promise.auto.min.js",
+      "wwwroot/lib/object-path/index.js",
+      "wwwroot/lib/axios/dist/axios.min.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/dist/validation.min.js",
+    "inputFiles": [
+      "wwwroot/lib/aspnet-validation/dist/aspnet-validation.min.js",
+      "wwwroot/js/app-init-validation.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

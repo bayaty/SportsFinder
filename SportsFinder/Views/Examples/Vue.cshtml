@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "VueTest";
+}
+
+<h1>VueTest</h1>
+
+<div id="vue-test" url="Hello">
+    <div>Hellox XXx World {{date}}</div>
+    <div>You have clicked {{clicked}} times.</div>
+    <div v-if="clicked <= 3" class="has-text-weight-bold">
+        Ok, let's start clicking!
+    </div>
+    <div v-else-if="clicked < 10" class="has-text-weight-bold">
+        GO GO GO...
+    </div>
+    <div v-else-if="clicked < 20" class="has-text-weight-bold">
+        Good job.
+    </div>
+    <div v-else class="has-text-weight-bold">
+        You can stop now.....
+    </div>
+    <button :class=buttonClass v-on:click="IncrementButton">Increment</button>
+</div>
+
+@section Scripts {
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#vue-test',
+        data: {
+            date: new Date().toString(),
+            clicked: 0
+        },
+        methods: {
+            IncrementButton: function () {
+                this.clicked = this.clicked + 1;
+            }
+        },
+        computed: {
+            // a computed getter
+            buttonClass: function () {
+                if (this.clicked <= 3) {
+                    return "button is-danger";
+                }
+                else if (this.clicked < 10) {
+                    return "button is-warning";
+                }
+                else {
+                    return "button is-primary";
+                }
+
+            },
+            clickedPlus10: function () {
+                // `this` points to the vm instance
+                return (this.clicked + 10);
+            }
+        }
+    });
+</script>
+}

@@ -1,0 +1,21 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+@inject Microsoft.Extensions.Options.IOptions<SportsFinder.Config.SiteSettings> SiteSettings
+
+<div class="tabs is-boxed is-centered">
+    <ul>
+        <li class="is-@ManageNavPages.IndexNavClass(ViewContext)"><a id="profile" asp-page="./Index">Profile</a></li>
+        <li class="is-@ManageNavPages.ChangePasswordNavClass(ViewContext)" ><a id="change-password" asp-page="./ChangePassword">Password</a></li>
+        @if (hasExternalLogins)
+        {
+            <li id="external-logins"  class="is-@ManageNavPages.ExternalLoginsNavClass(ViewContext)" ><a id="external-login"asp-page="./ExternalLogins">External logins</a></li>
+        }
+        @if (SiteSettings.Value.TwoFactorAuthenticationEnabled)
+        {
+            <li class="is-@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a  id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+        }
+        <li class="is-@ManageNavPages.PersonalDataNavClass(ViewContext)"><a id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+    </ul>
+</div>

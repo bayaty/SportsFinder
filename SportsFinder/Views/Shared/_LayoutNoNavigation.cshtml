@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="turbolinks-cache-control" content="no-cache">
+
+    @RenderSection("Head", required: false)
+
+    <title>@ViewData["Title"] - SportsFinder</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="~/css/app.css" />
+
+    <!-- Scripts are in the head to not be redownloaded because of Turbo Links -->
+    <environment include="Development">
+        <script src="~/js/dist.min.dev.js"></script>
+        <script src="~/js/app.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/dist.min.js"></script>
+        <script src="~/js/app.min.js" asp-append-version="true"></script>
+    </environment>
+</head>
+<body class="loaded">
+    <div id="app" class="auth">
+        @RenderBody()
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

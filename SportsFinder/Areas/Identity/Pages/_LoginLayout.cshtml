@@ -1,0 +1,33 @@
+﻿@inject Microsoft.Extensions.Options.IOptions<SportsFinder.Config.SiteSettings> SiteSettings
+@{
+    @if (SiteSettings.Value.NavigationLoginEnabled == false)
+    {
+        Layout = "/Views/Shared/_LayoutNoNavigation.cshtml";
+    }
+    else
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<div class="hero @if (SiteSettings.Value.NavigationLoginEnabled == false) { @Html.Raw("is-fullheight"); } ">
+    <div class="hero-body">
+        <div class=" @if (SiteSettings.Value.NavigationLoginEnabled == false) { @Html.Raw("container"); } has-text-centered">
+
+
+                @if (SiteSettings.Value.NavigationLoginEnabled == false)
+                {
+                    <h1 class="title has-text-primary">
+                        <partial name="_Logo" />
+                    </h1>
+                }
+
+                @RenderBody()
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

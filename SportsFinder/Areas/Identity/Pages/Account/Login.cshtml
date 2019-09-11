@@ -1,0 +1,51 @@
+﻿@page
+@model LoginModel
+@using SportsFinder.Config
+@inject Microsoft.Extensions.Options.IOptions<SiteSettings> SiteSettings
+@{
+    ViewData["Title"] = "Log in";
+}
+
+
+
+<div class="column is-6 is-offset-3">
+    <h3 class="title has-text-grey">Login</h3>
+    <p class="subtitle has-text-grey">Please login to proceed.</p>
+    <div class="box">
+        <div asp-validation-summary="ModelOnly" class="has-text-danger"></div><br />
+        <form id="account" method="post">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" placeholder="Your Username" asp-for="Input.Username" autofocus="">
+                </div>
+                <span asp-validation-for="Input.Username" class="help is-danger"></span>
+
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input asp-for="Input.Password" class="input is-large" type="password" placeholder="Your Password">
+                </div>
+                <span asp-validation-for="Input.Password" class="help is-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Input.RememberMe" class="checkbox">
+                    <input asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Login</button>
+        </form>
+    </div>
+    <p class="has-text-grey">
+        @if (SiteSettings.Value.RegistrationEnabled)
+        {
+            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign Up</a>
+            @Html.Raw("&nbsp;·&nbsp;");
+        }
+        <a id="forgot-password" asp-page="./ForgotPassword">Forgot Password</a>
+
+    </p>
+</div>
+
+<form action="/" method="post"></form>

@@ -1,0 +1,45 @@
+﻿@import "../lib/bulma-scss/utilities/_initial-variables.scss";
+
+$color-inverse: #131e26 !default;
+$color-text-inverse: #ffffff !default;
+
+
+// Links
+$link-color: #969696 !default;
+$link-transition: initial;
+$link-decoration: underline;
+
+$link-hover-color: #fff !default;
+$link-hover-decoration: underline !default;
+
+// Header
+$header-height: 50px !default;
+$header-height-xs: 50px !default;
+
+// Sidebar
+$sidebar-width: 240px !default;
+
+// Footer
+$footer-height: 50px !default;
+
+$sidebar-color-primary: #ffffff !default;
+$sidebar-color-secondary: darken($sidebar-color-primary, 6%) !default;
+
+$sidebar-color-text: fade-out($color-text-inverse, 0.5) !default;
+$sidebar-color-text-active: #fff;
+
+// Content
+$content-padding-x-xl: 40px !default;
+$content-padding-y-xl: 35px !default;
+
+$content-padding-x-lg: 35px !default;
+$content-padding-y-lg: 30px !default;
+
+$content-padding-x-md: 20px !default;
+$content-padding-y-md: 25px !default;
+
+$content-padding-x-sm: 20px !default;
+$content-padding-y-sm: 20px !default;
+
+$content-padding-x-xs: 10px !default;
+$content-padding-y-xs: 15px !default;

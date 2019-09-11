@@ -1,0 +1,103 @@
+﻿@page
+@model RegisterModel
+
+@using SportsFinder.Config
+@inject Microsoft.Extensions.Options.IOptions<SiteSettings> SiteSettings
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h3 class="title has-text-grey">@ViewData["Title"]</h3>
+<p class="subtitle has-text-grey">Create a new account.</p>
+<div class="box">
+    @if (SiteSettings.Value.RegistrationEnabled)
+    {
+        <div>
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="ModelOnly" class="has-text-danger"></div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" asp-for="Input.Username"></label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" asp-for="Input.Username" />
+
+                            </div>
+                            <span asp-validation-for="Input.Username" class="help is-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" asp-for="Input.Email"></label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" asp-for="Input.Email" />
+
+                            </div>
+                            <span asp-validation-for="Input.Email" class="help is-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" asp-for="Input.DisplayName"></label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" asp-for="Input.DisplayName" />
+
+                            </div>
+                            <span asp-validation-for="Input.DisplayName" class="help is-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" asp-for="Input.Password"></label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" asp-for="Input.Password" />
+
+                            </div>
+                            <span asp-validation-for="Input.Password" class="help is-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" asp-for="Input.ConfirmPassword"></label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" asp-for="Input.ConfirmPassword" />
+
+                            </div>
+                            <span asp-validation-for="Input.ConfirmPassword" class="help is-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="button is-primary">Register</button>
+            </form>
+        </div>
+
+    }
+    else
+    {
+        <div>Registration is disabled on this site.</div>
+    }
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+</div>

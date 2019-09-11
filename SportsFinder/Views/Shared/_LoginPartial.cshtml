@@ -1,0 +1,61 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using SportsFinder.Config
+@inject Microsoft.Extensions.Options.IOptions<SiteSettings> SiteSettings
+
+
+@{
+    var DisplayName = "";
+    if (SignInManager.IsSignedIn(User)) {
+        var currentUser = await UserManager.GetUserAsync(User);
+        if (currentUser != null)
+        {
+            DisplayName = currentUser.UserName;
+            if (currentUser.DisplayName != null && currentUser.DisplayName.Trim() != "")
+            {
+                DisplayName = currentUser.DisplayName;
+            }
+        }
+    }
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    <div id="user-nav">
+        <div class="dropdown is-right ">
+            <div class="dropdown-trigger">
+                <a href="#" class="button is-link" aria-haspopup="true" aria-controls="dropdown-menu">
+                    @DisplayName
+                </a>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        Profile
+                    </a>
+                    <div class="">
+                        <form id="LogoutForm" name="LogoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action(" Index", "Home" , new { area="" })">
+                            <button type="submit" class="button dropdown-item is-white">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <ul class="nav-profile">
+        @if (SiteSettings.Value.RegistrationEnabled)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    </ul>
+}

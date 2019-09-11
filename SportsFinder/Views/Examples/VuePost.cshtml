@@ -1,0 +1,111 @@
+﻿@{
+    ViewData["Title"] = "VueTest";
+}
+
+<h1>VueTest</h1>
+
+<div id="vue-test" url="Hello">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+                <th><button class="button is-info" v-on:click="Add">Add</button></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr v-for="(forecast, index) in requestdata">
+                <td>
+                    <input class="input" type="text" placeholder="Date" v-model="forecast.DateFormatted" />
+                    <span v-if="error[index]">{{error[index]['DateFormatted']}}</span>
+                </td>
+                <td>
+                    <input class="input" type="text" placeholder="Date" v-model="forecast.TemperatureC" />
+                    <span v-if="error[index]">{{error[index]['TemperatureC']}}</span>
+
+                </td>
+                <td>{{forecast.TemperatureF}}</td>
+                <td>
+                    <input class="input" type="text" placeholder="Date" v-model="forecast.Summary" />
+                    <span v-if="error[index]">{{error[index]['Summary']}}</span>
+
+                </td>
+                <td>
+                    <button class="button is-danger" v-on:click="Delete(index)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div v-if="requestdata.length == 0" class="has-text-centered">No Data Available.<br /><br /></div>
+    <div class="has-text-centered">
+        <button class="button is-success" v-on:click="Submit">Save Changes</button>
+        <button class="button is-warning" v-on:click="FetchData">Cancel</button>
+    </div>
+    <div id="token">@Html.AntiForgeryToken()</div>
+
+    <pre v-if="response != ''">{{response}}</pre>
+</div>
+
+@section Scripts {
+<script type="text/javascript">
+
+        var app = new Vue({
+            el: '#vue-test',
+            data: function () {
+                return { requestdata: [], response: {}, error: [] }; },
+            methods: {
+                Add: function () {
+                    console.log("Added.");
+                },
+                Delete: function (i) {
+                    console.log("Deleted: " + i + ".");
+                     this.requestdata.splice(i, 1);
+
+                },
+                FetchData: function () {
+                    var response = axios.get("@Url.Action("WeatherForecasts", "Examples")")
+                    .then(function(response)
+                        {
+                            this.requestdata = response.data
+                        }.bind(this));
+
+                },
+                Submit: function () {
+                    var antiForgeryToken = document.getElementsByName("__RequestVerificationToken")[0];
+                    console.log(antiForgeryToken);
+
+                    //Using formData to post instead of json to show proper error message from the ModelState instead of an error saying "JSON syntax error at line xxx".
+                    var data = jsonToFormData(this.requestdata);
+                    var response = axios.post("@Url.Action("VuePost", "Examples")", data, { headers: { 'RequestVerificationToken': antiForgeryToken.value } })
+                        .then(function (response) {
+                            this.requestdata = response.data
+                            this.response = response.data
+                        }.bind(this))
+                        .catch(function (error, a, b, c) {
+                            this.error = [];
+                            if (!error.hasOwnProperty("response")) {
+                                this.response = error
+
+                            }
+                            else {
+                                this.response = error.response;
+                                if (error.response.hasOwnProperty("data")) {
+                                    this.response = error.response.data;
+                                        for (var index in error.response.data) {
+                                            objectPath.set(this.error, index.replace("[","").replace("]",""), error.response.data[index]);
+                                    }
+                                }
+                            }
+                        }.bind(this));
+                }
+            },
+            created: function () {
+                this.FetchData();
+            }
+        });
+</script>
+}

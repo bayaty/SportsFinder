@@ -1,0 +1,74 @@
+{
+  "defaultProvider": "unpkg",
+  "libraries": [
+
+    {
+      "provider": "cdnjs",
+      "destination": "wwwroot/lib/turbolinks/",
+      "library": "turbolinks@5.2.0"
+    },
+    {
+      "library": "qrcode_js@1.0.0",
+      "destination": "wwwroot/lib/qrcode",
+      "files": [ "qrcode.min.js" ]
+    },
+    {
+      "destination": "wwwroot/lib/font-awesome",
+      "files": [
+        "css/all.css",
+        "css/all.min.css",
+        "webfonts/fa-solid-900.woff2",
+        "webfonts/fa-brands-400.woff2",
+        "webfonts/fa-brands-400.eot",
+        "webfonts/fa-brands-400.svg",
+        "webfonts/fa-brands-400.ttf",
+        "webfonts/fa-brands-400.woff",
+        "webfonts/fa-regular-400.eot",
+        "webfonts/fa-regular-400.svg",
+        "webfonts/fa-regular-400.ttf",
+        "webfonts/fa-regular-400.woff",
+        "webfonts/fa-regular-400.woff2",
+        "webfonts/fa-solid-900.eot",
+        "webfonts/fa-solid-900.svg",
+        "webfonts/fa-solid-900.ttf",
+        "webfonts/fa-solid-900.woff",
+        "sprites/brands.svg",
+        "sprites/regular.svg",
+        "sprites/solid.svg"
+
+      ],
+      "library": "font-awesome@5.8.2",
+      "provider": "cdnjs"
+    },
+    {
+      "library": "bulma-scss@0.7.5",
+      "destination": "wwwroot/lib/bulma-scss/"
+    },
+    {
+      "library": "vue@2.6.10",
+      "destination": "wwwroot/lib/vue",
+      "files": [ "dist/vue.js", "dist/vue.runtime.js", "dist/vue.min.js", "dist/vue.runtime.min.js" ]
+    },
+    {
+      "library": "axios@0.19.0",
+      "destination": "wwwroot/lib/axios",
+      "files": [ "dist/axios.js", "dist/axios.min.js", "dist/axios.min.map" ]
+    },
+    {
+      "library": "aspnet-validation@0.0.11",
+      "destination": "wwwroot/lib/aspnet-validation",
+      "files": [ "dist/aspnet-validation.js", "dist/aspnet-validation.min.js" ]
+    },
+    {
+      "library": "es6-promise@4.2.6",
+      "destination": "wwwroot/lib/es6-promise",
+      "files": [ "dist/es6-promise.auto.min.js", "dist/es6-promise.min.js" ]
+    },
+
+    {
+      "library": "object-path@0.11.4",
+      "destination": "wwwroot/lib/object-path","files": ["index.js"]
+    }
+  ],
+  "version": "1.0"
+}

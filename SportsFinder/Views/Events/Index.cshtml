@@ -1,0 +1,43 @@
+﻿@model IEnumerable<SportsFinder.Data.Models.Event>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Events</h1>
+
+<div>
+
+    <a class="button is-link is-outlined" asp-area="" asp-controller="Events" asp-action="Create" is-active-route>
+        + Create Event
+    </a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th><div></div></th>@*Icon column, leave it empty*@
+                <th>Creator</th>
+                <th>Date Created</th>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Title</th>
+                <th>Title</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var event in Model)
+            {
+            <tr>
+                <td>@event.Sport.SportIcon</td>
+                <td>@event.Creator.DisplayName</td>
+                <td>@event.Creator.DisplayName</td>
+                <td>@event.Creator.DisplayName</td>
+                <td>@event.Creator.DisplayName</td>
+                <td>@event.players.Count</td>
+                <td>@event.Summary</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
