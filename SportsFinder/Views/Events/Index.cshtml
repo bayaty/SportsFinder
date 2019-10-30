@@ -26,18 +26,30 @@
             </tr>
         </thead>
         <tbody>
-            @*@foreach (var event in Model)
+            @if (Model == null)
             {
             <tr>
-                <td>@event.Sport.SportIcon</td>
-                <td>@event.Creator.DisplayName</td>
-                <td>@event.Creator.DisplayName</td>
-                <td>@event.Creator.DisplayName</td>
-                <td>@event.Creator.DisplayName</td>
-                <td>@event.players.Count</td>
-                <td>@event.Summary</td>
+                
+                <th><div></div></th>
+                <th>no items found</th>
             </tr>
-            }*@
+            }
+            else
+            {
+                @foreach (var x in Model)
+                {
+                    <tr>
+                        <td>@x.Sport.SportIcon</td>
+                        <td>@x.Creator</td>
+                        <td>@x.Creator</td>
+                        <td>@x.Creator.DisplayName</td>
+                        <td>@x.Creator.DisplayName</td>
+                        <td>@x.Players.Count</td>
+                        <td>@x.Description</td>
+                    </tr>
+                }
+            }
+
         </tbody>
     </table>
 </div>
