@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportsFinder.Data;
 
 namespace SportsFinder.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191112043001_Initialize DB")]
+    partial class InitializeDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,7 +202,9 @@ namespace SportsFinder.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatorId");
+                    b.Property<int?>("CreatorId");
+
+                    b.Property<string>("CreatorId1");
 
                     b.Property<DateTime>("DateCreated");
 
@@ -226,7 +230,7 @@ namespace SportsFinder.Data.Migrations
 
                     b.HasKey("EventId");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("CreatorId1");
 
                     b.HasIndex("EventStatusId");
 
@@ -573,7 +577,7 @@ namespace SportsFinder.Data.Migrations
                 {
                     b.HasOne("SportsFinder.Data.Models.ApplicationUser", "Creator")
                         .WithMany()
-                        .HasForeignKey("CreatorId");
+                        .HasForeignKey("CreatorId1");
 
                     b.HasOne("SportsFinder.Data.Models.EventStatus", "EventStatus")
                         .WithMany()

@@ -20,7 +20,7 @@ namespace SportsFinder.Data
         public DbSet<Sport> Sports { get; set; }
         public DbSet<UserSport> UserSports { get; set; }
         public DbSet<UserStatus> UserStatuses { get; set; }
-        public DbSet<WeatherForecast> WeatherForecasts { get; set; }
+        //public DbSet<WeatherForecast> WeatherForecasts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -78,18 +78,8 @@ namespace SportsFinder.Data
                     SkillLevelDescription = "High level of play, Varsity or higher" }
 
             );
-            modelBuilder.Entity<Gender>().HasData(
-                new Gender { GenderId = 1, GenderType = "Male" },
-                new Gender { GenderId = 1, GenderType = "Female" },
-                new Gender { GenderId = 1, GenderType = "Other" }
 
-            );
-            modelBuilder.Entity<Gender>().HasData(
-                new Gender { GenderId = 1, GenderType = "Male" },
-                new Gender { GenderId = 1, GenderType = "Female" },
-                new Gender { GenderId = 1, GenderType = "Other" }
-
-            );
+           
 
             #endregion
 

@@ -6,14 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SportsFinder.Data;
-using SportsFinder.Data.Models;
 
 namespace SportsFinder.Controllers
 {
-    public class EventsController : Controller
+    public class EventDetailsController : Controller
     {
         public ApplicationDbContext DB { get; }
-        public EventsController(ApplicationDbContext _db)
+        public EventDetailsController(ApplicationDbContext _db)
         {
             DB = _db;
         }

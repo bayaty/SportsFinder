@@ -17,7 +17,7 @@
             <tr>
                 <th><div></div></th>@*Icon column, leave it empty*@
                 <th>Creator</th>
-                <th>Date Created</th>
+                <th>Event Date</th>
                 <th>Title</th>
                 <th>Location</th>
                 <th>Title</th>
@@ -28,25 +28,31 @@
         <tbody>
             @if (Model == null)
             {
-            <tr>
-                
-                <th><div></div></th>
-                <th>no items found</th>
-            </tr>
+                <tr>
+
+                    <th><div></div></th>
+                    <th>No Events found.</th>
+                </tr>
             }
             else
             {
                 @foreach (var x in Model)
                 {
-                    <tr>
-                        <td>@x.Sport.SportIcon</td>
-                        <td>@x.Creator</td>
-                        <td>@x.Creator</td>
-                        <td>@x.Creator.DisplayName</td>
-                        <td>@x.Creator.DisplayName</td>
-                        <td>@x.Players.Count</td>
-                        <td>@x.Description</td>
-                    </tr>
+
+                        <tr onclick="location.href = 'EventDetails/'+@x.EventId" >
+
+                            <td>
+                                <i class="@x.Sport.SportIcon"></i>
+
+
+                            <td>@x.Creator</td>
+                            <td>@x.Creator</td>
+                            <td>@x.Creator.DisplayName</td>
+                            <td>@x.Creator.DisplayName</td>
+                            <td>@x.Players.Count</td>
+                            <td>@x.Description</td>
+                        </tr>
+
                 }
             }
 

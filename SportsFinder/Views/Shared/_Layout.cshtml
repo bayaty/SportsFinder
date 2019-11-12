@@ -92,12 +92,20 @@
                     <li>
                         <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fab fa-vuejs"></i><i class="fas fa-upload"></i> Vue Post Example</a>
                     </li>
+
+
+                    @if (User.Identity.IsAuthenticated  && User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fab fa-vuejs"></i><i class="fas fa-upload"></i> Test</a>
+                        </li>
+
+                    }
                 </ul>
             </nav>
         </aside>
         <div class="sidebar-overlay" id="sidebar-overlay" data-turbolinks-permanent></div>
         <article class="content dashboard-page">
-            <partial name="_CookieConsentPartial" />
             <section role="main" class="container is-fluid">
                 @RenderBody()
             </section>

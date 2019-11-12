@@ -10,7 +10,7 @@ namespace SportsFinder.Data.Models
 
 
         //NEED TO FIX THIS: TODO
-        public int? CreatorId { get; set; }
+        public string CreatorId { get; set; }
         public virtual ApplicationUser Creator { get; set; }
 
         public DateTime DateCreated { get; set; }
