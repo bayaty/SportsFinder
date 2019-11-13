@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
+    
 }
 
 <div class="container">
@@ -103,7 +104,36 @@
                 </div>
             </div>
         </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" asp-for="Input.Birthday"></label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" asp-for="Input.Birthday" />
 
+                    </div>
+
+                    <span asp-validation-for="Input.Birthday" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+       
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Gender</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control select">
+                        <select class="select" asp-for="Input.GenderId" asp-items="@(new SelectList(Model.Genders,"GenderId","GenderType",""))" type="text" placeholder="" autofocus="">
+                        </select>
+                    </div>
+                    <span asp-validation-for="Input.GenderId" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
         <button id="update-profile-button" type="submit" class="button is-primary">Save</button>
     </form>
 </div>

@@ -68,38 +68,40 @@
                     <li>
                         <a class="has-text-light" asp-area="" asp-controller="Events" asp-action="Index" is-active-route><i class="fas fa-list-ul"></i> Events</a>
                     </li>
-                    <li>
-                        <a class="has-text-light" asp-area="" asp-controller="Home" asp-action="Index" is-active-route><i class="fas fa-bell"></i> Notifications</a>
-                    </li>
-                    <li>
-                        <a class="has-text-light" asp-area="" asp-controller="Gender" asp-action="Index" is-active-route><i class="fas fa-user-cog"></i> Settings</a>
-                    </li>
-                    <li>
-                        <a class="has-text-light" asp-area="" asp-controller="Home" asp-action="Privacy" is-active-route><i class="fas fa-user-shield"></i> Privacy</a>
-                    </li>
-                    <li>
-                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="Get" is-active-route><i class="fas fa-basketball-ball"></i> Get Example</a>
-                    </li>
-                    <li>
-                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="Post" is-active-route><i class="fas fa-upload"></i> Post Example</a>
-                    </li>
-                    <li>
-                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="Vue" is-active-route><i class="fab fa-vuejs"></i> Vue Example</a>
-                    </li>
-                    <li>
-                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VueGet" is-active-route><i class="fab fa-vuejs"></i><i class="fas fa-download"></i> Vue Get Example</a>
-                    </li>
-                    <li>
-                        <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fab fa-vuejs"></i><i class="fas fa-upload"></i> Vue Post Example</a>
-                    </li>
+                    @*<li>
+            <a class="has-text-light" asp-area="" asp-controller="Home" asp-action="Index" is-active-route><i class="fas fa-bell"></i> Notifications</a>
+        </li>
+        <li>
+            <a class="has-text-light" asp-area="" asp-controller="Gender" asp-action="Index" is-active-route><i class="fas fa-user-cog"></i> Settings</a>
+        </li>
+        <li>
+            <a class="has-text-light" asp-area="" asp-controller="Home" asp-action="Privacy" is-active-route><i class="fas fa-user-shield"></i> Privacy</a>
+        </li>
+        <li>
+            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="Get" is-active-route><i class="fas fa-basketball-ball"></i> Get Example</a>
+        </li>
+        <li>
+            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="Post" is-active-route><i class="fas fa-upload"></i> Post Example</a>
+        </li>
+        <li>
+            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="Vue" is-active-route><i class="fab fa-vuejs"></i> Vue Example</a>
+        </li>
+        <li>
+            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VueGet" is-active-route><i class="fab fa-vuejs"></i><i class="fas fa-download"></i> Vue Get Example</a>
+        </li>
+        <li>
+            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fab fa-vuejs"></i><i class="fas fa-upload"></i> Vue Post Example</a>
+        </li>*@
 
 
-                    @if (User.Identity.IsAuthenticated  && User.IsInRole("Admin"))
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <li>
-                            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fab fa-vuejs"></i><i class="fas fa-upload"></i> Test</a>
+                            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fa fa-users"></i> Users</a>
                         </li>
-
+                        <li>
+                            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fa fa-calendar"></i> Past Events</a>
+                        </li>
                     }
                 </ul>
             </nav>

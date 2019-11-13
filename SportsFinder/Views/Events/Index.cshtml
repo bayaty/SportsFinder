@@ -8,21 +8,28 @@
 
 <div>
 
-    <a class="button is-link is-outlined" asp-area="" asp-controller="Events" asp-action="Create" is-active-route>
+    <a class="button is-info is-outlined" asp-area="" asp-controller="Events" asp-action="Create">
         + Create Event
     </a>
 
     <table class="table">
         <thead>
             <tr>
-                <th><div></div></th>@*Icon column, leave it empty*@
-                <th>Creator</th>
+                <th><div></div></th>
+                @*Icon column, leave it empty*@
+                <th>Owner</th>
                 <th>Event Date</th>
                 <th>Title</th>
                 <th>Location</th>
-                <th>Title</th>
-                <th>Title</th>
-                <th>Summary</th>
+                <th>Skill Level</th>
+                <th>Gender(Preferred)</th>
+                <th>Players Needed</th>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <th>
+                        Join
+                    </th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -39,19 +46,60 @@
                 @foreach (var x in Model)
                 {
 
-                        <tr onclick="location.href = 'EventDetails/'+@x.EventId" >
+        <tr>
 
-                            <td>
-                                <i class="@x.Sport.SportIcon"></i>
+            <td>
+                
+                <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@x.EventId">
+                    <i class="@x.Sport.SportIcon"></i>
+                </a>
 
+                <td>
+                <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@x.EventId">
+                    @x.Creator.DisplayName
+                </a>
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@x.EventId">
+                    @x.EventDate
+                </a>
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@x.EventId">
+                    @x.Title
+                </a>
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@x.EventId">
+                    @x.Location
+                </a>
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@x.EventId">
+                    @x.SkillLevel.SkillLevelName
+                </a>
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@x.EventId">
+                    @x.Gender.GenderType
+                </a>
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@x.EventId">
+                    @x.PlayersNeeded
+                </a>
+            </td>
+            @if (User.Identity.IsAuthenticated )
+            { 
+        <td>
+        
+            <a class="button is-outlined is-success " asp-area="" asp-controller="Events" asp-action="Create" asp-route-id="@x.EventId">
+                <i class="fas fa-check" style="color:green"></i>
+            </a>
+        </td>
+                }
 
-                            <td>@x.Creator</td>
-                            <td>@x.Creator</td>
-                            <td>@x.Creator.DisplayName</td>
-                            <td>@x.Creator.DisplayName</td>
-                            <td>@x.Players.Count</td>
-                            <td>@x.Description</td>
-                        </tr>
+        </tr>
 
                 }
             }

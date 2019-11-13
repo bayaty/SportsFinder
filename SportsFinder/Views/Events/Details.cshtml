@@ -1,0 +1,45 @@
+﻿
+@model SportsFinder.Data.Models.Event
+@{
+    ViewData["Title"] = "Create";
+
+}
+<h1>Event Details</h1>
+
+<div class="control">
+    <a class="button is-info is-outlined" asp-area="" asp-controller="Events" asp-action="Create">
+        Edit Event
+    </a>
+</div>
+
+<table class="table">
+    <tr><th>Owner</th><td>@Model.Creator.DisplayName</td></tr>
+    <tr><th>Title</th><td>@Model.Title</td></tr>
+    <tr><th>Event Date</th><td>@Model.EventDate</td></tr>
+    <tr><th>Sport</th><td><i class="@Model.Sport.SportIcon"></i> @Model.Sport.SportName</td></tr>
+    <tr><th>Preferred Gender</th><td>@Model.Gender.GenderType</td></tr>
+    <tr><th>Skill Level</th><td>@Model.SkillLevel.SkillLevelName<br /><small><small><small>@Model.SkillLevel.SkillLevelDescription</small></small></small></td></tr>
+    <tr><th>Description</th><td>@Model.Description</td></tr>
+    <tr><th>Location</th><td>@Model.Location</td></tr>
+    <tr><th>Date Created</th><td>@Model.DateCreated</td></tr>
+    <tr><th>Players Needed</th><td>@Model.PlayersNeeded</td></tr>
+</table>
+
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>Players</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var player in Model.Players)
+                {
+
+                    <td>@player.User.DisplayName</td>
+                }
+            </tr>
+
+        </tbody>
+    </table>

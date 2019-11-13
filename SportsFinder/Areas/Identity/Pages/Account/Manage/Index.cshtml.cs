@@ -7,6 +7,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using SportsFinder.Data.Models;
+using SportsFinder.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SportsFinder.Areas.Identity.Pages.Account.Manage
 {
@@ -15,20 +18,24 @@ namespace SportsFinder.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
-
+        private readonly ApplicationDbContext _DB;
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender, ApplicationDbContext DB)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _DB = DB;
         }
 
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
+
+        public List<Sport> Sports { get; set; }
+        public List<Gender> Genders { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -50,6 +57,11 @@ namespace SportsFinder.Areas.Identity.Pages.Account.Manage
             public string DisplayName { get; set; }
             [Display(Name = "Location")]
             public string Location { get; set; }
+            [Display(Name = "Birthday")]
+            public DateTime Birthday { get; set; }
+           
+
+            public int? GenderId { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -65,7 +77,7 @@ namespace SportsFinder.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var displayName = user.DisplayName;
             var location = user.Location;
-
+            
             Username = userName;
 
             Input = new InputModel
@@ -73,8 +85,12 @@ namespace SportsFinder.Areas.Identity.Pages.Account.Manage
                 Email = email,
                 PhoneNumber = phoneNumber,
                 DisplayName = displayName,
-                Location = location
+                Location = location,
+                GenderId=user.GenderId,
+                Birthday = user.BirthDate,
+              
             };
+            Genders = _DB.Genders.ToList();
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
 
@@ -124,7 +140,7 @@ namespace SportsFinder.Areas.Identity.Pages.Account.Manage
                 if (!setDsiplayName.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(dnuser);
-                    throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                    throw new InvalidOperationException($"Unexpected error occurred setting Display name for user with ID '{userId}'.");
                 }
             }
 
@@ -136,10 +152,31 @@ namespace SportsFinder.Areas.Identity.Pages.Account.Manage
                 if (!setDsiplayName.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(dnuser);
-                    throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                    throw new InvalidOperationException($"Unexpected error occurred setting Location for user with ID '{userId}'.");
                 }
             }
-
+            if (user.GenderId != Input.GenderId)
+            {
+                var dnuser = await _userManager.GetUserAsync(User); //TODO: Contemplate whethether to use this or not(?)
+                dnuser.GenderId = Input.GenderId;
+                var setDsiplayName = await _userManager.UpdateAsync(dnuser);
+                if (!setDsiplayName.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(dnuser);
+                    throw new InvalidOperationException($"Unexpected error occurred setting gender for user with ID '{userId}'.");
+                }
+            }
+            if (user.BirthDate != Input.Birthday)
+            {
+                var dnuser = await _userManager.GetUserAsync(User); //TODO: Contemplate whethether to use this or not(?)
+                dnuser.BirthDate = Input.Birthday;
+                var setDsiplayName = await _userManager.UpdateAsync(dnuser);
+                if (!setDsiplayName.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(dnuser);
+                    throw new InvalidOperationException($"Unexpected error occurred setting birthday for user with ID '{userId}'.");
+                }
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
