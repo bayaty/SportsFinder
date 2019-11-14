@@ -1,17 +1,69 @@
 ﻿
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using SportsFinder.Config
+@inject Microsoft.Extensions.Options.IOptions<SiteSettings> SiteSettings
 @model SportsFinder.Data.Models.Event
 @{
     ViewData["Title"] = "Create";
 
 }
+
+@{
+    var userID = "";
+    if (SignInManager.IsSignedIn(User))
+    {
+        var currentUser = await UserManager.GetUserAsync(User);
+        if (currentUser != null)
+        {
+            userID = currentUser.UserName;
+            if (currentUser.Id != null && currentUser.Id.Trim() != "")
+            {
+                userID = currentUser.Id;
+            }
+        }
+    }
+}
 <h1>Event Details</h1>
 
 <div class="control">
-    <a class="button is-info is-outlined" asp-area="" asp-controller="Events" asp-action="Create">
-        Edit Event
-    </a>
-</div>
 
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div>
+
+            <form method="post" action="@Url.Action("Join", "Events")">
+                <a class="button is-info is-outlined" asp-area="" asp-controller="Events" asp-action="Create">
+                    Edit Event
+                </a>
+
+                <input type="hidden" name="id" value="@Model.EventId" />
+
+                @{
+                    if (Model.Players.Any(y => y.UserId == userID))
+                    {
+                        <button type="submit" class="button is-outlined is-danger">
+                            Leave
+                        </button>
+
+                    }
+                    else
+                    {
+                        <button type="submit" class="button is-outlined is-success">
+                            Join
+                        </button>
+
+                    }
+                }
+            </form>
+            @*<a class="button is-outlined is-success " asp-area="" asp-controller="Events" asp-action="Create" asp-route-id="@x.EventId">
+                    <i class="fas fa-check" style="color:green"></i>
+                </a>*@
+        </div>
+    }
+</div>
 <table class="table">
     <tr><th>Owner</th><td>@Model.Creator.DisplayName</td></tr>
     <tr><th>Title</th><td>@Model.Title</td></tr>
@@ -20,26 +72,36 @@
     <tr><th>Preferred Gender</th><td>@Model.Gender.GenderType</td></tr>
     <tr><th>Skill Level</th><td>@Model.SkillLevel.SkillLevelName<br /><small><small><small>@Model.SkillLevel.SkillLevelDescription</small></small></small></td></tr>
     <tr><th>Description</th><td>@Model.Description</td></tr>
-    <tr><th>Location</th><td>@Model.Location</td></tr>
+    <tr>
+        <th>Location</th>
+        <td>
+            @Model.Location<br />
+            <a target="_blank" href="https://www.google.ca/maps/search/@Model.Location"><img src="~/google icon.png" alt="Google Map" height="42" width="42"></a>
+        </td>
+    </tr>
     <tr><th>Date Created</th><td>@Model.DateCreated</td></tr>
     <tr><th>Players Needed</th><td>@Model.PlayersNeeded</td></tr>
 </table>
 
 
-<table class="table">
-        <thead>
-            <tr>
-                <th>Players</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                @foreach (var player in Model.Players)
-                {
+<h4>Players </h4>
+<ul>
+    @foreach (var player in Model.Players)
+    {
 
-                    <td>@player.User.DisplayName</td>
-                }
-            </tr>
+    <li>
+        @player.User.DisplayName 
 
-        </tbody>
-    </table>
+        @if (player.User.Gender == null)
+        {
+            Html.Raw("(Gender Not Specified)");
+        }
+        else
+        {
+            Html.Raw("(" + @player.User.Gender.GenderType + ")");
+        }
+
+    </li>
+}
+
+</ul>

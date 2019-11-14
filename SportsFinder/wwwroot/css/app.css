@@ -7257,3 +7257,6 @@ label.panel-block {
 .validation-summary-errors {
   color: #ff3860;
   font-style: italic; }
+
+div.link:hover {
+  background-color: hotpink; }

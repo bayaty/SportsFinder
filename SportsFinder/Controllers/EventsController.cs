@@ -81,13 +81,41 @@ namespace SportsFinder.Controllers
         public IActionResult Details(int id)
         {
             var ev = DB.Events.Where(y => y.EventId == id)
-                .Include(x => x.Players).ThenInclude(c=>c.User)
+                .Include(x => x.Players).ThenInclude(c=>c.User).ThenInclude(y =>y.Gender)
                 .Include(x => x.Sport)
                 .Include(x => x.Gender)
                 .Include(x => x.SkillLevel)
                 .Include(x => x.Creator).Single();
             
             return View(ev);
+        }
+        [HttpPost]
+        public IActionResult Join(int id)
+        {
+            var user = userManager.GetUserId(HttpContext.User);
+            Event currEvent = DB.Events.Where(ev => ev.EventId == id).Include(ev => ev.Players).FirstOrDefault();
+
+            if (currEvent == null)
+            {
+                return NotFound();
+            }
+            if (!currEvent.Players.Any(p =>p.UserId == user))
+            {
+                Player P = new Player();
+                P.UserId = user;
+                P.EventId = currEvent.EventId;
+                P.UserStatusId = 1;
+                DB.Players.Add(P);
+                DB.SaveChanges();
+            }
+            else
+            {
+                Player removePlayer = DB.Players.Where(p => p.UserId == user && p.EventId == currEvent.EventId).FirstOrDefault();
+                DB.Players.Remove(removePlayer);
+                DB.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
 
         [Authorize]
