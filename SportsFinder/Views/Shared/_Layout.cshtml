@@ -97,10 +97,10 @@
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <li>
-                            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fa fa-users"></i> Users</a>
+                            <a class="has-text-light" asp-area="" asp-controller="Admin" asp-action="Users" is-active-route><i class="fa fa-users"></i> Users</a>
                         </li>
                         <li>
-                            <a class="has-text-light" asp-area="" asp-controller="Examples" asp-action="VuePost" is-active-route><i class="fa fa-calendar"></i> Past Events</a>
+                            <a class="has-text-light" asp-area="" asp-controller="Admin" asp-action="Events" is-active-route><i class="fa fa-calendar"></i> Past Events</a>
                         </li>
                     }
                 </ul>

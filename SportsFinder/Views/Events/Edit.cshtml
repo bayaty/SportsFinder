@@ -1,123 +1,173 @@
-﻿@*@model IEnumerable<SportsFinder.Data.Models.Event>
-
-
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using SportsFinder.Config
+@inject Microsoft.Extensions.Options.IOptions<SiteSettings> SiteSettings
+@model SportsFinder.ViewModels.EventEditViewModel
 @{
     ViewData["Title"] = "Create";
+   // Model.EventDate = DateTime.Now;
+}
+@{
+    var userID = "";
+    if (SignInManager.IsSignedIn(User))
+    {
+        var currentUser = await UserManager.GetUserAsync(User);
+        if (currentUser != null)
+        {
+            userID = currentUser.UserName;
+            if (currentUser.Id != null && currentUser.Id.Trim() != "")
+            {
+                userID = currentUser.Id;
+            }
+        }
+    }
+}
+@if (userID != Model.Event.Creator.Id && !User.IsInRole("Admin"))
+{
+    <h1> Access Denied</h1>
+}
+else
+{
+    <h1>Edit</h1>
+
+
+    <form asp-controller="Events" asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="EventId" value="@Model.Event.EventId"/>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" name="EventDate" >Date of Event</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" name="EventDate" type="datetime-local" value="@Model.Event.EventDate.ToString("yyyy-MM-ddTHH:mm:ss")">
+                    </div>
+                    <span asp-validation-for="EventDate" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Players Needed</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" asp-for="PlayersNeeded" type="number" placeholder="" autofocus=""  value="@Model.Event.PlayersNeeded">
+                    </div>
+                    <span asp-validation-for="PlayersNeeded" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Sport</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control select">
+                        <select class="select" asp-for="SportId" asp-items="@(new SelectList(Model.Sports,"SportId","SportName",""))" type="text" placeholder="" autofocus="">
+                        </select>
+                    </div>
+                    <span asp-validation-for="SportId" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Preferred Gender</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control select">
+                        <select class="select" name="GenderId">
+                            @foreach (var Gen in Model.PreferredGenders)
+                            {
+                                if (Model.Event.GenderId == @Gen.PreferredGenderId)
+                                {
+                                    <option value="@Gen.PreferredGenderId" selected>@Gen.GenderType</option>
+                                }
+                                else
+                                {
+                                    <option value="@Gen.PreferredGenderId">@Gen.GenderType</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <span asp-validation-for="GenderId" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Skill Level</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control select">
+                        <select class="select" asp-for="SkillLevelId" asp-items="@(new SelectList(Model.SkillLevels,"SkillLevelId","SkillLevelName",""))" type="text" placeholder="" autofocus="" asp-value="">
+                        </select>
+                    </div>
+                    <span asp-validation-for="SkillLevelId" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Title</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" asp-for="Title" type="text" placeholder="" autofocus=""  value="@Model.Event.Description">
+                    </div>
+                    <span asp-validation-for="Title" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Description</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" asp-for="Description" type="text" placeholder="" autofocus="" value="@Model.Event.Description">
+                    </div>
+                    <span asp-validation-for="Description" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Location</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" asp-for="Location" type="text" placeholder="" autofocus="" value="@Model.Event.Location">
+                    </div>
+                    <span asp-validation-for="Location" class="help is-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="control">
+            <button class="button is-primary" type="submit">Edit</button>
+            <a href="/Events" class="button is-danger">Cancel</a>
+        </div>
+    </form>
+
 }
 
-<h1>Event Details</h1>
+@section Scripts {
+    <partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml" />
+}
 
-
-<div class="field is-horizontal">
-    <div class="field-label is-normal">
-        <label class="label" asp-for="EventDate">Date of Event(YYYY-MM-DD HH:MI)</label>
-    </div>
-    <div class="field-body">
-        <div class="field">
-            <div class="control">
-                <input class="input" asp-for="EventDate">
-            </div>
-            <span asp-validation-for="EventDate" class="help is-danger"></span>
-        </div>
-    </div>
-</div>
-<div class="field is-horizontal">
-    <div class="field-label is-normal">
-        <label class="label">Players Needed</label>
-    </div>
-    <div class="field-body">
-        <div class="field">
-            <div class="control">
-                <input class="input" asp-for="PlayersNeeded" type="number" placeholder="" autofocus="">
-            </div>
-            <span asp-validation-for="PlayersNeeded" class="help is-danger"></span>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="field is-horizontal">
-    <div class="field-label is-normal">
-        <label class="label">Sport</label>
-    </div>
-    <div class="field-body">
-        <div class="field">
-            <div class="control select">
-                <select class="select" asp-for="SportId" asp-items="@(new SelectList(Model.Sports,"SportId","SportName",""))" type="text" placeholder="" autofocus="">
-                </select>
-            </div>
-            <span asp-validation-for="SportId" class="help is-danger"></span>
-        </div>
-    </div>
-</div>
-<div class="field is-horizontal">
-    <div class="field-label is-normal">
-        <label class="label">Preferred Gender</label>
-    </div>
-    <div class="field-body">
-        <div class="field">
-            <div class="control select">
-                <select class="select" asp-for="GenderId" asp-items="@(new SelectList(Model.PreferredGenders,"PreferredGenderId","GenderType",""))" type="text" placeholder="" autofocus="">
-                </select>
-            </div>
-            <span asp-validation-for="GenderId" class="help is-danger"></span>
-        </div>
-    </div>
-</div>
-<div class="field is-horizontal">
-    <div class="field-label is-normal">
-        <label class="label">Skill Level</label>
-    </div>
-    <div class="field-body">
-        <div class="field">
-            <div class="control select">
-                <select class="select" asp-for="SkillLevelId" asp-items="@(new SelectList(Model.SkillLevels,"SkillLevelId","SkillLevelName",""))" type="text" placeholder="" autofocus="">
-                </select>
-            </div>
-            <span asp-validation-for="SkillLevelId" class="help is-danger"></span>
-        </div>
-    </div>
-</div>
-<div class="field is-horizontal">
-    <div class="field-label is-normal">
-        <label class="label">Title</label>
-    </div>
-    <div class="field-body">
-        <div class="field">
-            <div class="control">
-                <input class="input" asp-for="Title" type="text" placeholder="" autofocus="">
-            </div>
-            <span asp-validation-for="Title" class="help is-danger"></span>
-        </div>
-    </div>
-</div>
-<div class="field is-horizontal">
-    <div class="field-label is-normal">
-        <label class="label">Description</label>
-    </div>
-    <div class="field-body">
-        <div class="field">
-            <div class="control">
-                <input class="input" asp-for="Description" type="text" placeholder="" autofocus="">
-            </div>
-            <span asp-validation-for="Description" class="help is-danger"></span>
-        </div>
-    </div>
-</div>
-<div class="field is-horizontal">
-    <div class="field-label is-normal">
-        <label class="label">Location</label>
-    </div>
-    <div class="field-body">
-        <div class="field">
-            <div class="control">
-                <input class="input" asp-for="Location" type="text" placeholder="" autofocus="">
-            </div>
-            <span asp-validation-for="Location" class="help is-danger"></span>
-        </div>
-    </div>
-</div>
-<div class="control">
-    <button class="button is-primary" type="submit">Create</button>
-</div>*@

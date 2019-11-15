@@ -29,7 +29,7 @@ namespace SportsFinder.Controllers
                 .Include(x => x.Gender)
                 .Include(x => x.SkillLevel)
                 .Include(x => x.Players)
-                .Include(x => x.Creator);
+                .Include(x => x.Creator).Where(x => x.EventDate > DateTime.Now);
             return View(Events);
         }
 
@@ -47,7 +47,7 @@ namespace SportsFinder.Controllers
         [HttpPost]
         public IActionResult Create(Event evt)
         {
-            var user =  userManager.GetUserId(HttpContext.User);
+            var user = userManager.GetUserId(HttpContext.User);
 
             evt.CreatorId = user;
             evt.DateCreated = DateTime.Now;
@@ -76,17 +76,17 @@ namespace SportsFinder.Controllers
             DB.Players.Add(P);
             DB.SaveChanges();
 
-            return RedirectToAction("Details", new { id = evt.EventId } );
+            return RedirectToAction("Details", new { id = evt.EventId });
         }
         public IActionResult Details(int id)
         {
             var ev = DB.Events.Where(y => y.EventId == id)
-                .Include(x => x.Players).ThenInclude(c=>c.User).ThenInclude(y =>y.Gender)
+                .Include(x => x.Players).ThenInclude(c => c.User).ThenInclude(y => y.Gender)
                 .Include(x => x.Sport)
                 .Include(x => x.Gender)
                 .Include(x => x.SkillLevel)
                 .Include(x => x.Creator).Single();
-            
+
             return View(ev);
         }
         [HttpPost]
@@ -99,7 +99,7 @@ namespace SportsFinder.Controllers
             {
                 return NotFound();
             }
-            if (!currEvent.Players.Any(p =>p.UserId == user))
+            if (!currEvent.Players.Any(p => p.UserId == user))
             {
                 Player P = new Player();
                 P.UserId = user;
@@ -117,25 +117,57 @@ namespace SportsFinder.Controllers
 
             return RedirectToAction("Index");
         }
-
-        [Authorize]
-        public IActionResult Edit()
+        [HttpPost]
+        public IActionResult JoinDetails(int id)
         {
-            EventCreateViewModel evm = new EventCreateViewModel();
+            var user = userManager.GetUserId(HttpContext.User);
+            Event currEvent = DB.Events.Where(ev => ev.EventId == id).Include(ev => ev.Players).FirstOrDefault();
+
+            if (currEvent == null)
+            {
+                return NotFound();
+            }
+            if (!currEvent.Players.Any(p => p.UserId == user))
+            {
+                Player P = new Player();
+                P.UserId = user;
+                P.EventId = currEvent.EventId;
+                P.UserStatusId = 1;
+                DB.Players.Add(P);
+                DB.SaveChanges();
+            }
+            else
+            {
+                Player removePlayer = DB.Players.Where(p => p.UserId == user && p.EventId == currEvent.EventId).FirstOrDefault();
+                DB.Players.Remove(removePlayer);
+                DB.SaveChanges();
+            }
+
+            return RedirectToAction("Details", new { id = id });
+        }
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            EventEditViewModel evm = new EventEditViewModel();
+            var evt = DB.Events.Where(ev => ev.EventId == id)
+                .Include(x => x.Players).ThenInclude(c => c.User).ThenInclude(y => y.Gender)
+                .Include(x => x.Sport)
+                .Include(x => x.Gender)
+                .Include(x => x.SkillLevel)
+                .Include(x => x.Creator);
             evm.Sports = DB.Sports.ToList();
             evm.SkillLevels = DB.SkillLevels.ToList();
             evm.PreferredGenders = DB.PreferredGenders.ToList();
+            evm.Event = evt.FirstOrDefault();
             return View(evm);
         }
         [Authorize]
         [HttpPost]
         public IActionResult Edit(Event evt)
         {
+            var currentEvent = DB.Events.Where(x => x.EventId == evt.EventId).FirstOrDefault();
             var user = userManager.GetUserId(HttpContext.User);
 
-            evt.CreatorId = user;
-            evt.DateCreated = DateTime.Now;
-            evt.EventStatusId = 1;
             if (!ModelState.IsValid)
             {
                 //get key(s) and error message(s) from the ModelState
@@ -147,9 +179,16 @@ namespace SportsFinder.Controllers
                 return BadRequest(modelStateJson);
             }
 
+            currentEvent.EventDate = evt.EventDate;
+            currentEvent.Title = evt.Title;
+            currentEvent.Description = evt.Description;
+            currentEvent.Location = evt.Location;
+            currentEvent.SportId = evt.SportId;
+            currentEvent.PlayersNeeded = evt.PlayersNeeded;
+            currentEvent.GenderId = evt.GenderId;
 
 
-            DB.Events.Add(evt);
+            DB.Events.Update(currentEvent);
             DB.SaveChanges();
 
             return Ok(evt);//Do somethimg other than show JSON

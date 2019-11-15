@@ -1,0 +1,155 @@
+﻿@model IEnumerable<SportsFinder.Data.Models.ApplicationUser>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using SportsFinder.Config
+@inject Microsoft.Extensions.Options.IOptions<SiteSettings> SiteSettings
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var userID = "";
+    if (SignInManager.IsSignedIn(User))
+    {
+        var currentUser = await UserManager.GetUserAsync(User);
+        if (currentUser != null)
+        {
+            userID = currentUser.UserName;
+            if (currentUser.Id != null && currentUser.Id.Trim() != "")
+            {
+                userID = currentUser.Id;
+            }
+        }
+    }
+}
+
+<h1>Users</h1>
+
+<div>
+
+    @*<a class="button is-info is-outlined" asp-area="" asp-controller="Events" asp-action="Create">
+            + Create Event
+        </a>*@
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th><div></div></th>
+                @*Icon column, leave it empty*@
+                <th>Username</th>
+                <th>Display Name</th>
+                <th>Gender</th>
+                <th>Location</th>
+                <th>Birthdate</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Delete User</th>
+                @*
+        @if (User.Identity.IsAuthenticated)
+        {
+            <th>
+                Join/Leave
+            </th>
+        }
+                *@
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model == null)
+            {
+                <tr>
+
+                    <th><div></div></th>
+                    <th>No Users found.</th>
+                </tr>
+            }
+            else
+            {
+                @foreach (var x in Model)
+                {
+
+        <tr>
+
+            <td>
+
+                    <i class="@x.UserName"></i>
+
+            <td>
+                    @x.DisplayName
+            </td>
+            <td>
+                @if (x.Gender == null)
+                {
+                    @Html.Raw("Not set");
+
+                }
+                else
+                {
+                    @x.Gender.GenderType
+
+                }
+
+            </td>
+            <td>
+                    @x.Location
+            </td>
+            <td>
+                    @x.Location
+            </td>
+            <td>
+                    @x.BirthDate
+            </td>
+            <td>
+                    @x.Email
+            </td>
+            <td>
+                    @x.PhoneNumber
+            </td>
+            <td>
+                @if(x.Id != userID) { 
+                <form method="post" action="@Url.Action("Delete", "Admin")">
+                    <input type="hidden" name="id" value="@x.Id" />
+                            <button type="submit" class="button is-outlined is-danger" style="min-width:42px">
+                                <i class="fas fa fa-times " style="color:darkred"></i>
+                            </button>
+                </form>
+                }
+                @*
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td>
+                    <form method="post" action="@Url.Action("Join", "Events")">
+                        <input type="hidden" name="id" value="@x.EventId" />
+
+                        @{
+                            if (x.Players.Any(y => y.UserId == userID))
+                            {
+                                <button type="submit" class="button is-outlined is-danger" style="min-width:42px">
+                                    <i class="fas fa fa-times " style="color:darkred"></i>
+                                </button>
+
+                            }
+                            else
+                            {
+                                <button type="submit" class="button is-outlined is-success">
+                                    <i class="fas fa-check" style="color:green"></i>
+                                </button>
+
+                            }
+                        }
+                    </form>
+                   <a class="button is-outlined is-success " asp-area="" asp-controller="Events" asp-action="Create" asp-route-id="@x.EventId">
+                            <i class="fas fa-check" style="color:green"></i>
+                        </a>
+                </td>
+                }
+                *@
+        </tr>
+
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

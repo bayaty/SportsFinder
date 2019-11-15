@@ -34,7 +34,7 @@
     {
         <div>
 
-            <form method="post" action="@Url.Action("JoinDetails", "Events")">
+            @*<form method="post" action="@Url.Action("Join", "Events")">
                 <a class="button is-info is-outlined" asp-area="" asp-controller="Events" asp-action="Edit" asp-route-id="@Model.EventId">
                     Edit Event
                 </a>
@@ -57,7 +57,7 @@
 
                     }
                 }
-            </form>
+            </form>*@
             @*<a class="button is-outlined is-success " asp-area="" asp-controller="Events" asp-action="Create" asp-route-id="@x.EventId">
                     <i class="fas fa-check" style="color:green"></i>
                 </a>*@
@@ -89,19 +89,19 @@
     @foreach (var player in Model.Players)
     {
 
-    <li>
-        @player.User.DisplayName 
+        <li>
+            @player.User.DisplayName
 
-        @if (player.User.Gender == null)
-        {
-            Html.Raw("(Gender Not Specified)");
-        }
-        else
-        {
-            Html.Raw("(" + @player.User.Gender.GenderType + ")");
-        }
+            @if (player.User.Gender == null)
+            {
+                Html.Raw("(Gender Not Specified)");
+            }
+            else
+            {
+                Html.Raw("(" + @player.User.Gender.GenderType + ")");
+            }
 
-    </li>
-}
+        </li>
+    }
 
 </ul>

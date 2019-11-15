@@ -47,7 +47,7 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <th>
-                        Join
+                        Join/Leave
                     </th>
                 }
             </tr>
@@ -118,7 +118,7 @@
                                     @{
                                         if (x.Players.Any(y => y.UserId == userID))
                                         {
-                                            <button type="submit" class="button is-outlined is-danger">
+                                            <button type="submit" class="button is-outlined is-danger" style="min-width:42px">
                                                 <i class="fas fa fa-times " style="color:darkred"></i>
                                             </button>
 
