@@ -19,7 +19,7 @@
         <div class="field-body">
             <div class="field">
                 <div class="control">
-                    <input class="input" asp-for="EventDate">
+                    <input class="input" name="EventDate" type="datetime-local" value="@Model.EventDate.ToString("yyyy-MM-ddTHH:mm")">
                 </div>
                 <span asp-validation-for="EventDate" class="help is-danger"></span>
             </div>

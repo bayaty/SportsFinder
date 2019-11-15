@@ -186,12 +186,13 @@ namespace SportsFinder.Controllers
             currentEvent.SportId = evt.SportId;
             currentEvent.PlayersNeeded = evt.PlayersNeeded;
             currentEvent.GenderId = evt.GenderId;
+            currentEvent.SkillLevelId = evt.SkillLevelId;
 
 
             DB.Events.Update(currentEvent);
             DB.SaveChanges();
 
-            return Ok(evt);//Do somethimg other than show JSON
+            return RedirectToAction("Details", new { id = currentEvent.EventId });
         }
     }
 }

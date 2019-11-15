@@ -67,7 +67,7 @@
 <table class="table">
     <tr><th>Owner</th><td>@Model.Creator.DisplayName</td></tr>
     <tr><th>Title</th><td>@Model.Title</td></tr>
-    <tr><th>Event Date</th><td>@Model.EventDate</td></tr>
+    <tr><th>Event Date</th><td>@Model.EventDate.ToString("yyyy-MM-dd hh:mm tt")</td></tr>
     <tr><th>Sport</th><td><i class="@Model.Sport.SportIcon"></i> @Model.Sport.SportName</td></tr>
     <tr><th>Preferred Gender</th><td>@Model.Gender.GenderType</td></tr>
     <tr><th>Skill Level</th><td>@Model.SkillLevel.SkillLevelName<br /><small><small><small>@Model.SkillLevel.SkillLevelDescription</small></small></small></td></tr>
@@ -79,7 +79,7 @@
             <a target="_blank" href="https://www.google.ca/maps/search/@Model.Location"><img src="~/google icon.png" alt="Google Map" height="42" width="42"></a>
         </td>
     </tr>
-    <tr><th>Date Created</th><td>@Model.DateCreated</td></tr>
+    <tr><th>Date Created</th><td>@Model.DateCreated.ToString("yyyy-MM-dd hh:mm tt")</td></tr>
     <tr><th>Players Needed</th><td>@Model.PlayersNeeded</td></tr>
 </table>
 
@@ -94,11 +94,11 @@
 
         @if (player.User.Gender == null)
         {
-            Html.Raw("(Gender Not Specified)");
+            @Html.Raw("(Gender Not Specified)");
         }
         else
         {
-            Html.Raw("(" + @player.User.Gender.GenderType + ")");
+            @Html.Raw("(" + @player.User.Gender.GenderType + ")");
         }
 
     </li>

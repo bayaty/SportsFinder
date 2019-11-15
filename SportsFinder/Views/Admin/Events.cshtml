@@ -84,7 +84,7 @@
             </td>
             <td>
                 <a asp-area="" asp-controller="Admin" asp-action="AdminEventDetails" asp-route-id="@x.EventId">
-                    @x.EventDate
+                    @x.EventDate.ToString("yyyy-MM-dd hh:mm tt")
                 </a>
             </td>
             <td>

@@ -45,7 +45,7 @@ else
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input class="input" name="EventDate" type="datetime-local" value="@Model.Event.EventDate.ToString("yyyy-MM-ddTHH:mm:ss")">
+                        <input class="input" name="EventDate" type="datetime-local" value="@Model.Event.EventDate.ToString("yyyy-MM-ddTHH:mm")">
                     </div>
                     <span asp-validation-for="EventDate" class="help is-danger"></span>
                 </div>
@@ -74,10 +74,24 @@ else
             <div class="field-body">
                 <div class="field">
                     <div class="control select">
-                        <select class="select" asp-for="SportId" asp-items="@(new SelectList(Model.Sports,"SportId","SportName",""))" type="text" placeholder="" autofocus="">
+                        @* FIX HERE MAKE SURE DROP DOWN IS SELECTED, DO MANUALLY LIKE THE GENDER*@
+
+                        <select class="select" name="SportId">
+                            @foreach (var Gen in Model.Sports)
+                            {
+                                if (Model.Event.Sport.SportName == @Gen.SportName)
+                                {
+                                    <option value="@Gen.SportId" selected>@Gen.SportName</option>
+                                }
+                                else
+                                {
+                                    <option value="@Gen.SportId">@Gen.SportName</option>
+                                }
+                            }
                         </select>
                     </div>
                     <span asp-validation-for="SportId" class="help is-danger"></span>
+
                 </div>
             </div>
         </div>
@@ -113,7 +127,22 @@ else
             <div class="field-body">
                 <div class="field">
                     <div class="control select">
-                        <select class="select" asp-for="SkillLevelId" asp-items="@(new SelectList(Model.SkillLevels,"SkillLevelId","SkillLevelName",""))" type="text" placeholder="" autofocus="" asp-value="">
+                        @* FIX HERE MAKE SURE DROP DOWN IS SELECTED, DO MANUALLY LIKE THE GENDER *@
+
+                        @*<select class="select" asp-for="SkillLevelId" asp-items="@(new SelectList(Model.SkillLevels,"SkillLevelId","SkillLevelName",""))" type="text" placeholder="" autofocus="" asp-value="">
+                        </select>*@
+                        <select class="select" name="SkillLevelId">
+                            @foreach (var Gen in Model.SkillLevels)
+                            {
+                                if (Model.Event.SkillLevel.SkillLevelName == @Gen.SkillLevelName)
+                                {
+                                    <option value="@Gen.SkillLevelId" selected>@Gen.SkillLevelName</option>
+                                }
+                                else
+                                {
+                                    <option value="@Gen.SkillLevelId">@Gen.SkillLevelName</option>
+                                }
+                            }
                         </select>
                     </div>
                     <span asp-validation-for="SkillLevelId" class="help is-danger"></span>
@@ -160,8 +189,8 @@ else
             </div>
         </div>
         <div class="control">
-            <button class="button is-primary" type="submit">Edit</button>
-            <a href="/Events" class="button is-danger">Cancel</a>
+            <button class="button is-primary" type="submit">Save</button>
+            <a href="/Events" class="button is-family-secondary">Cancel</a>
         </div>
     </form>
 
