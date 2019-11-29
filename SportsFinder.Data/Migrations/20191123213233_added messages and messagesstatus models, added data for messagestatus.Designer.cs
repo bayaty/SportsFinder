@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportsFinder.Data;
 
 namespace SportsFinder.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191123213233_added messages and messagesstatus models, added data for messagestatus")]
+    partial class addedmessagesandmessagesstatusmodelsaddeddataformessagestatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,35 +306,6 @@ namespace SportsFinder.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SportsFinder.Data.Models.Message", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateReceived");
-
-                    b.Property<DateTime>("DateSent");
-
-                    b.Property<string>("MessageContent");
-
-                    b.Property<string>("MessageFromId");
-
-                    b.Property<int>("MessageStatusId");
-
-                    b.Property<string>("MessageToId");
-
-                    b.HasKey("MessageId");
-
-                    b.HasIndex("MessageFromId");
-
-                    b.HasIndex("MessageStatusId");
-
-                    b.HasIndex("MessageToId");
-
-                    b.ToTable("Messages");
-                });
-
             modelBuilder.Entity("SportsFinder.Data.Models.MessageStatus", b =>
                 {
                     b.Property<int>("MessageStatusId")
@@ -343,7 +316,7 @@ namespace SportsFinder.Data.Migrations
 
                     b.HasKey("MessageStatusId");
 
-                    b.ToTable("MessageStatuses");
+                    b.ToTable("MessageStatus");
 
                     b.HasData(
                         new
@@ -656,22 +629,6 @@ namespace SportsFinder.Data.Migrations
                         .WithMany()
                         .HasForeignKey("SportId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SportsFinder.Data.Models.Message", b =>
-                {
-                    b.HasOne("SportsFinder.Data.Models.ApplicationUser", "MessageFrom")
-                        .WithMany()
-                        .HasForeignKey("MessageFromId");
-
-                    b.HasOne("SportsFinder.Data.Models.MessageStatus", "MessageStatus")
-                        .WithMany()
-                        .HasForeignKey("MessageStatusId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SportsFinder.Data.Models.ApplicationUser", "MessageTo")
-                        .WithMany()
-                        .HasForeignKey("MessageToId");
                 });
 
             modelBuilder.Entity("SportsFinder.Data.Models.Player", b =>

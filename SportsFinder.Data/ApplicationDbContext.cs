@@ -20,6 +20,8 @@ namespace SportsFinder.Data
         public DbSet<Sport> Sports { get; set; }
         public DbSet<UserSport> UserSports { get; set; }
         public DbSet<UserStatus> UserStatuses { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<MessageStatus> MessageStatuses { get; set; }
         //public DbSet<WeatherForecast> WeatherForecasts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -63,6 +65,13 @@ namespace SportsFinder.Data
                 new UserStatus {  UserStatusId=1, UserStatusType="Accepted"},
                 new UserStatus {  UserStatusId=2, UserStatusType="Rejected" },
                 new UserStatus {  UserStatusId=3, UserStatusType="Left" }
+
+            );
+            modelBuilder.Entity<MessageStatus>().HasData(
+                new MessageStatus { MessageStatusId= 1, MessageStatusDescription = "Sent" },
+                new MessageStatus { MessageStatusId= 2, MessageStatusDescription = "Received" },
+                new MessageStatus { MessageStatusId= 3, MessageStatusDescription = "Deleted" },
+                new MessageStatus { MessageStatusId= 4, MessageStatusDescription = "Delivered" }
 
             );
             //test code that will probably be removed later (specific events, etc)
