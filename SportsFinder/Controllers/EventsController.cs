@@ -48,7 +48,6 @@ namespace SportsFinder.Controllers
         public IActionResult Create(Event evt)
         {
             var user = userManager.GetUserId(HttpContext.User);
-
             evt.CreatorId = user;
             evt.DateCreated = DateTime.Now;
             evt.EventStatusId = 1;

@@ -1,0 +1,78 @@
+﻿
+@model IEnumerable<SportsFinder.Data.Models.Message>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using SportsFinder.Config
+@inject Microsoft.Extensions.Options.IOptions<SiteSettings> SiteSettings
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var userID = "";
+    if (SignInManager.IsSignedIn(User))
+    {
+        var currentUser = await UserManager.GetUserAsync(User);
+        if (currentUser != null)
+        {
+            userID = currentUser.UserName;
+            if (currentUser.Id != null && currentUser.Id.Trim() != "")
+            {
+                userID = currentUser.Id;
+            }
+        }
+    }
+}
+
+
+<h1>Inbox</h1>
+
+<div>
+
+   
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th><div></div></th>
+                @*Icon column, leave it empty*@
+                <th>Username</th>
+                <th>Last Message</th>
+             
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model == null)
+            {
+                <tr>
+
+                    <th><div></div></th>
+                    <th>No Messages available.</th>
+                </tr>
+            }
+            else
+            {
+                @foreach (var x in Model)
+                {
+
+                    <tr>
+
+
+                                
+
+                        <td>
+                            @x.MessageFrom
+                        </td>
+                        <td>
+                            @x.MessageContent
+                        </td>
+                       
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

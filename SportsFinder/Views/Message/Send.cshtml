@@ -7,7 +7,7 @@
 @model SportsFinder.ViewModels.EventEditViewModel
 @{
     ViewData["Title"] = "Create";
-   // Model.EventDate = DateTime.Now;
+    // Model.EventDate = DateTime.Now;
 }
 @{
     var userID = "";
@@ -36,11 +36,11 @@ else
     <form asp-controller="Events" asp-action="Edit" method="post">
         @Html.AntiForgeryToken()
 
-        <input type="hidden" name="EventId" value="@Model.Event.EventId"/>
+        <input type="hidden" name="EventId" value="@Model.Event.EventId" />
 
         <div class="field is-horizontal">
             <div class="field-label is-normal">
-                <label class="label" name="EventDate" >Date of Event</label>
+                <label class="label" name="EventDate">Date of Event</label>
             </div>
             <div class="field-body">
                 <div class="field">
@@ -58,7 +58,7 @@ else
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input class="input" asp-for="PlayersNeeded" type="number" placeholder="" autofocus=""  value="@Model.Event.PlayersNeeded">
+                        <input class="input" asp-for="PlayersNeeded" type="number" placeholder="" autofocus="" value="@Model.Event.PlayersNeeded">
                     </div>
                     <span asp-validation-for="PlayersNeeded" class="help is-danger"></span>
                 </div>
@@ -127,7 +127,10 @@ else
             <div class="field-body">
                 <div class="field">
                     <div class="control select">
-                       
+                        @* FIX HERE MAKE SURE DROP DOWN IS SELECTED, DO MANUALLY LIKE THE GENDER *@
+
+                        @*<select class="select" asp-for="SkillLevelId" asp-items="@(new SelectList(Model.SkillLevels,"SkillLevelId","SkillLevelName",""))" type="text" placeholder="" autofocus="" asp-value="">
+                            </select>*@
                         <select class="select" name="SkillLevelId">
                             @foreach (var Gen in Model.SkillLevels)
                             {
@@ -153,7 +156,7 @@ else
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input class="input" asp-for="Title" type="text" placeholder="" autofocus=""  value="@Model.Event.Description">
+                        <input class="input" asp-for="Title" type="text" placeholder="" autofocus="" value="@Model.Event.Description">
                     </div>
                     <span asp-validation-for="Title" class="help is-danger"></span>
                 </div>
